@@ -46,17 +46,6 @@ def populate():
     legg_til_lag("Sogndal", obosligaen,0)
     legg_til_lag("Åsane", obosligaen,0, 0)
 
-
-    # Print out what we have added to the user.
-    for l in Lag.objects.all():
-        print("{0}".format(str(l)))
-'''
-def populate():
-
-    # Print out what we have added to the user.
-    for l in Lag.objects.all():
-        print("{0}".format(str(l)))
-'''
 def legg_til_lag(navnet, ligaen, antallpoeng=0, kamperspilt=0):
     l = Lag.objects.get_or_create(navn=navnet, tabell=ligaen)[0]
     l.poeng=antallpoeng

@@ -28,11 +28,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 SECRET_KEY = '(ke0j1tk-m&ia1ozga-5y2(=9_2y=rh5e14s+k7s=npihl%v48'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['henning.pythonanywhere.com']
 
 
 # Application definition
@@ -46,7 +46,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'tipp',
     'registration',
-    'bootstrap_toolkit',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -102,5 +101,5 @@ STATICFILES_DIRS = (
 REGISTRATION_OPEN = True                # If True, users can register
 ACCOUNT_ACTIVATION_DAYS = 7     # One-week activation window; you may, of course, use a different value.
 REGISTRATION_AUTO_LOGIN = True  # If True, the user will be automatically logged in.
-LOGIN_REDIRECT_URL = '/tipp/'  # The page you want users to arrive at after they successful log in
+LOGIN_REDIRECT_URL = '/'  # The page you want users to arrive at after they successful log in
 LOGIN_URL = '/accounts/login/'

@@ -15,13 +15,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Lag',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
-                ('navn', models.CharField(max_length=128, unique=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('navn', models.CharField(unique=True, max_length=128)),
                 ('poeng', models.IntegerField(default=0)),
                 ('kamper_spilt', models.IntegerField(default=0)),
+                ('maalforskjell', models.IntegerField(default=0)),
+                ('scoretemaal', models.IntegerField(default=0)),
+                ('sorteringsnavn', models.CharField(max_length=128, null=True)),
             ],
             options={
-                'ordering': ['-poeng', 'kamper_spilt'],
+                'ordering': ['-poeng', '-maalforskjell', '-scoretemaal', 'kamper_spilt', 'sorteringsnavn'],
                 'verbose_name_plural': 'lag',
             },
             bases=(models.Model,),
@@ -29,8 +32,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Liga',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
-                ('navn', models.CharField(max_length=128, unique=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('navn', models.CharField(unique=True, max_length=128)),
                 ('public', models.BooleanField(default=True)),
                 ('slug', models.SlugField(unique=True)),
             ],
@@ -41,9 +44,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='PoengRegel',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
-                ('navn', models.CharField(max_length=128, unique=True)),
-                ('kortnavn', models.CharField(max_length=20, unique=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('navn', models.CharField(unique=True, max_length=128)),
+                ('kortnavn', models.CharField(unique=True, max_length=20)),
             ],
             options={
             },
@@ -52,8 +55,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Tabell',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
-                ('navn', models.CharField(max_length=128, unique=True)),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('navn', models.CharField(unique=True, max_length=128)),
                 ('slug', models.SlugField(unique=True)),
             ],
             options={
@@ -63,9 +66,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Tabelltipp',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('poeng', models.IntegerField(default=0)),
-                ('liga', models.ForeignKey(null=True, to='tipp.Liga')),
+                ('liga', models.ForeignKey(to='tipp.Liga', null=True)),
             ],
             options={
                 'ordering': ['-poeng'],
@@ -75,31 +78,32 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TippetPlassering',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('tippet_plassering', models.IntegerField()),
-                ('lag', models.ForeignKey(null=True, to='tipp.Lag')),
-                ('tabelltipp', models.ForeignKey(null=True, to='tipp.Tabelltipp')),
+                ('lag', models.ForeignKey(to='tipp.Lag', null=True)),
+                ('tabelltipp', models.ForeignKey(to='tipp.Tabelltipp', null=True)),
             ],
             options={
+                'ordering': ['tippet_plassering'],
             },
             bases=(models.Model,),
         ),
         migrations.AddField(
             model_name='tabelltipp',
             name='plassertlag',
-            field=models.ManyToManyField(through='tipp.TippetPlassering', to='tipp.Lag'),
+            field=models.ManyToManyField(to='tipp.Lag', through='tipp.TippetPlassering'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='tabelltipp',
             name='user',
-            field=models.ForeignKey(null=True, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='liga',
             name='deltakere',
-            field=models.ManyToManyField(through='tipp.Tabelltipp', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(to=settings.AUTH_USER_MODEL, through='tipp.Tabelltipp'),
             preserve_default=True,
         ),
         migrations.AddField(

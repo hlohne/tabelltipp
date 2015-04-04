@@ -11,7 +11,7 @@ $(function() {
     var url 
     ligaid= $(this).attr("data-ligaid");
     url= $(this).attr("data-redirecturl");
-    $.get('/tipp/blimediligaform/', {ligaid:ligaid, ordning:ordning});
+    $.get('/blimediligaform/', {ligaid:ligaid, ordning:ordning});
       alert("Du er nå blitt medlem!");
     $(location).attr('href', url);
   });

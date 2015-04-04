@@ -36,8 +36,9 @@
   <strong>NB!</strong> Bli med i ligaen for å se tabelltippet til {{ message }}.
 </div>
 {% endfor %}
-<p> Tabell: {{ liga.tabell }} </p>
-<p> Poengregel: {{ liga.poengregel }} </p>
+<div>
+    <p class="text-muted"> I denne ligaen tippes det om {{ liga.tabell }}, og {{liga.poengregel|lower }} blir brukt som poengregel.</p>
+</div>
 {% else %}
     <h2 class="sub-header">Denne ligaen finnes ikke!</h2>
 {% endif %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Tippet tabell{% endblock %}
+
+{% block body_block %}
+<h2 class="sub-header">Tippet tabell</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr class="success">
+                  <th>#</th>
+                  <th>Lag</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for l in plassertlag %}
+                <tr class="table-row">
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ l.lag.navn }}</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+{% endblock %}

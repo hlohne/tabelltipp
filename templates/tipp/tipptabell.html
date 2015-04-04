@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Tipp tabell{% endblock %}
+
+{% block body_block %}
+<h2 class="sub-header">Tipp tabell</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+<!--                  <th>#</th>
+-->
+                  <th>Lag</th>
+                </tr>
+              </thead>
+              <tbody id="sortable">
+              {% for l in lag %}
+                <tr id='{{ l.id }}'>
+<!--                  <td>{{ forloop.counter }}</td>
+-->
+                  <td>{{ l.navn }}</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+  <button id="knapp" data-lagid="{{ l.id }}">Tipp!</button>
+
+{% endblock %}

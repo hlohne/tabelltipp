@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Tipp tabellen for å bli med i ligaen {{ liga.navn }}{% endblock %}
+
+{% block body_block %}
+<h2 class="sub-header">Tipp tabell</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr class="success">
+<!--                  <th>#</th>
+-->
+                  <th>Lag</th>
+                </tr>
+              </thead>
+              <tbody id="sortable">
+              {% for l in lag %}
+                <tr id='{{ l.id }}' class="tabell">
+<!--                  <td>{{ forloop.counter }}</td>
+-->
+                  <td>{{ l.navn }}</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+<button class="btn btn-lg btn-primary" id="blimed" data-ligaid="{{ liga.id }}" data-redirecturl="{% url 'liga' liga.slug %}">Tipp!</button>
+{% endblock %}

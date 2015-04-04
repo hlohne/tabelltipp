@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Hjem{% endblock %}
+{% block body_block %}
+
+{% if user.is_authenticated %}
+{% if liga %}
+    <h2 class="sub-header">Mine ligaer</h2>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr class="success">
+                  <th>Liganavn</th>
+                  <th>Liga</th>
+                  <th>Min plassering</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for l in liga %}
+                <tr class="clickable-row" data-href={% url 'liga' l.slug %}>
+                  <td>{{ l.navn }}</td>
+                  <td>{{ l.tabell.navn }}</td>
+                  <td>{{ l.minplass }}/{{ l.deltakere.all|length }}</td>
+                  
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+{% else %}
+<h2 class="sub-header">Du er ikke medlem i noen liga enda!</h2>
+{% endif %}
+
+<div class="col-md-6">
+<p><a class="btn btn-md btn-success btn-block" href="{% url 'opprettliga' %}" role="button">Opprett ny liga</a></p>
+</div>
+<div class="col-md-6">
+<p><a class="btn btn-md btn-success btn-block" href="{% url 'ligaer' %}" role="button">Finn en liga</a></p>
+</div>
+
+{% endif %}
+
+
+{% endblock %}

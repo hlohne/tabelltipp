@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Tabell{% endblock %}
+
+{% block body_block %}
+<h2 class="sub-header">{{ tabell.navn }}</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr class='success'>
+                  <th>#</th>
+                  <th>Lag</th>
+<!--                  <th>Kamper spilt</th> -->
+                  <th>Poeng</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for l in tabell.lag %}
+                <tr class="table-row">
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ l.navn }}</td>
+<!--                  <td>{{ l.kamper_spilt }}</td> -->
+                  <td>{{ l.poeng }}</td> 
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+{% endblock %}

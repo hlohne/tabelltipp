@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Ligaer{% endblock %}
+{% block body_block %}
+<h2 class="sub-header">Offentlige ligaer</h2>
+
+{% if ligaer %}
+{% for l in ligaer %}
+<li>{{ l.navn }}</li>
+{% endfor %}
+{% else %}
+<h4>Det er ingen offentlige ligaer!</h4>
+{% endif %}
+{% endblock %}

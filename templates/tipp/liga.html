@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}{{ liganavn }}{% endblock %}
+{% block body_block %}
+
+{% if liga %}
+    <h2 class="sub-header">Stillingen i {{ liganavn }}</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr class="success">
+                  <th>#</th>
+                  <th>Bruker</th>
+                  <th>Poeng</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for d in tabelltipp %}
+                <tr class="clickable-row" {% if userinliga %}{% else %}data-inliga="false"{% endif %} data-href={% url 'se_tipp' liga.slug d.user.username %}>
+                  <td>{{ d.sinplass }}</td>
+                  <td>{{ d.user.username }}</td>
+                  <td>{{ d.poeng }}</td>
+                  
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+{% if not userinliga %}
+<p><a class="btn btn-md btn-success btn-block" href="{% url 'blimediliga' liga.slug %}" role="button">Bli med</a></p>
+{% endif %}
+{% for message in  messages %}
+<div class="alert alert-warning" role="alert">
+  <strong>NB!</strong> Bli med i ligaen for å se tabelltippet til {{ message }}.
+</div>
+{% endfor %}
+<p> Tabell: {{ liga.tabell }} </p>
+<p> Poengregel: {{ liga.poengregel }} </p>
+{% else %}
+    <h2 class="sub-header">Denne ligaen finnes ikke!</h2>
+{% endif %}
+{% endblock %}

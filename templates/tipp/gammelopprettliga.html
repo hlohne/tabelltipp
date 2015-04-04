@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% load bootstrap_toolkit %}
+
+{% block title %}{% endblock %}
+{% block body_block %}
+
+<form role="form" method="post" action="">
+<div class="new-login-left">
+<div class="form-group">
+{% csrf_token %}
+{{ form|as_bootstrap }}
+</div>
+</div>
+<button type="submit" class="btn btn-lg btn-primary">Opprett liga</button>
+<!---
+<input type="submit" value="Submit">
+-->
+</form>
+{% endblock %}

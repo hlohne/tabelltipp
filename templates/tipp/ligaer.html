@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Offentlige ligaer{% endblock %}
+{% block body_block %}
+
+{% if ligaer %}
+    <h2 class="sub-header">Offentlige ligaer</h2>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr class="success">
+                  <th>Liganavn</th>
+                  <th>Liga</th>
+                  <th>Antall deltakere</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for l in ligaer %}
+                <tr class="clickable-row" data-href={% url 'liga' l.slug %}>
+                  <td>{{ l.navn }}</td>
+                  <td>{{ l.tabell.navn }}</td>
+                  <td>{{ l.antall }}</td>
+
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+
+<div class="col-md-6">
+<p><a class="btn btn-md btn-success btn-block" href="{% url 'opprettliga' %}" role="button">Opprett ny liga</a></p>
+</div>
+{% else %}
+<h2 class="sub-header">Det finnes ingen ligaer enda!</h2>
+<div class="col-md-6">
+<p><a class="btn btn-md btn-success btn-block" href="{% url 'opprettliga' %}" role="button">Opprett ny liga</a></p>
+</div>
+{% endif %}
+
+
+
+
+{% endblock %}

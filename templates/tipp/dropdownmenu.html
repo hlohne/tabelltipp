@@ -1,0 +1,4 @@
+{% for tabell in tabeller %}
+<li><a href="{% url 'tabell' tabell.slug %}">{{ tabell.navn }}</a></li>
+{% endfor %}
+

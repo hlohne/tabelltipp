@@ -1,0 +1,25 @@
+{% extends 'base.html'%}
+
+{% load i18n %}
+
+
+{% load bootstrap_toolkit %}
+
+
+{% block body_block %}
+<form role="form" method="post" action=".">
+<h2 class="form-signin-heading">Sign in</a></h2>
+
+{% csrf_token %}
+
+{{ form|as_bootstrap }}
+<p></p>
+<button class="btn btn-lg btn-primary" type="submit" value="Submit" />Logg inn</button>
+</form>
+<p></p>
+<p>{% trans "Forgot password" %}? <a href="{% url 'auth_password_reset' %}">{% trans "Reset it" %}</a>!</p>
+<p>{% trans "Not member" %}? <a href="{% url 'registration_register' %}">{% trans "Register" %}</a>!</p>
+
+</form>
+
+{% endblock %}

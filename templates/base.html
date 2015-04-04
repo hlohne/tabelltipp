@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+{% load base_extras %}
+<html lang="en">
+  <head>
+    {% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{% static 'ball.ico' %}">
+
+    <title>Tabelltipp {% block title %}{% endblock %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+<!--    <link href="jumbotron-narrow.css" rel="stylesheet">
+-->
+    <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"> 
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script src="{% static "js/jquery.ui.touch-punch.min.js" %}"></script>
+  <script src="{% static "js/tipp-jquery.js" %}"></script>
+
+  <style>
+  #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+  #sortable li { margin: 0 5px 5px 5px; padding: 5px; font-size: 1.2em; height: 1.5em; }
+  #sortable li { height: 1.5em; line-height: 1.2em; }
+  .ui-state-highlight { height: 1.5em; line-height: 1.2em; }
+  </style>
+
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="{% navactive request 'index' %}">
+            <a href="{% url 'index' %}">Hjem</a></li>
+            <li role="presentation" class="drowdown {% if tabell %}active{% endif %}">
+            <a href="/tipp/tabell/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Tabell <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              {% gettabeller 0 %}
+            </ul>
+            </li>
+            {% if not user.is_authenticated %}
+            <li role="presentation" class="{% navactive request 'auth_login' %}">
+            <a href="{% url 'auth_login' %}">Logg inn</a></li>
+            {% else %}
+            <li role="presentation" class="{% navactive request 'auth_logout' %}">
+            <a href="{% url 'auth_logout' %}">Logg ut</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+        <h3 class="text-muted">Tabelltipp</h3>
+      </div>
+      {% if user.is_authenticated %}
+      {% else %}
+      {% signup request %}
+      {% endif %}
+      
+      <div class="row marketing">
+        <div class="col-lg-6"> 
+          {% block body_block %}{% endblock %}
+        </div>
+      </div>
+
+      <footer class="footer">
+        <p>&copy; Henning 2015</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
+

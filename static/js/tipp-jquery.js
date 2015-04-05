@@ -1,10 +1,13 @@
 $(function() {
   var hoverEnabled;
+  jQuery(document).ready(function($) {
   $( "#sortable" ).sortable({
     placeholder: "ui-state-highlight"
   });
   $( "#sortable" ).disableSelection();
+  });
 
+  jQuery(document).ready(function($) {
   $("#blimed").click( function(event) {
     var ordning = $("#sortable").sortable("toArray").join('_');
     var ligaid 
@@ -12,8 +15,9 @@ $(function() {
     ligaid= $(this).attr("data-ligaid");
     url= $(this).attr("data-redirecturl");
     $.get('/blimediligaform/', {ligaid:ligaid, ordning:ordning});
-      alert("Du er nå blitt medlem!");
+      alert("Takk!");
     $(location).attr('href', url);
+  });
   });
 
   jQuery(document).ready(function($) {
@@ -42,9 +46,10 @@ $(function() {
     $(".table-row").click(function() {
         var lagid = $(this).attr("data-lagid");
         var tabelltippid = $(this).attr("data-tabelltippid");
-        $.get('/testmetode/', {lagid:lagid, tabelltippid: tabelltippid}, function(data) {
+        $.get('/regnpoeng/', {lagid:lagid, tabelltippid: tabelltippid}, function(data) {
             var svar = jQuery.parseJSON( data );
-            alert("Laget er på " + svar.plass + t" plass og har " + svar.poeng + " poeng. Dette gir " + svar.minuspoeng + " minuspoeng ");
+            var message = svar.lag + " er på " + svar.plass + ". plass og har " + svar.poeng + " poeng. Dette gir " + svar.minuspoeng + " minuspoeng.";
+            $("#freeow").freeow("Poengberegning",message, { classes: ["smokey", "notice"]});
             });
       });
   });
@@ -59,6 +64,8 @@ $(function() {
         $(this).removeClass('info');
       });
   });
+
+
 
 });
 

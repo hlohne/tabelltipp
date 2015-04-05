@@ -6,15 +6,15 @@
 {% block body_block %}
 
 {% if ligaer %}
-    <h2 class="sub-header">Offentlige ligaer</h2>
+    <h2 class="sub-header">Tilgjengelige ligaer</h2>
 
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr class="success">
-                  <th>Liganavn</th>
                   <th>Liga</th>
-                  <th>Antall deltakere</th>
+                  <th>Tabell</th>
+                  <th>Deltakere</th>
                 </tr>
               </thead>
               <tbody>
@@ -40,8 +40,5 @@
 <p><a class="btn btn-md btn-success btn-block" href="{% url 'opprettliga' %}" role="button">Opprett ny liga</a></p>
 </div>
 {% endif %}
-
-
-
 
 {% endblock %}

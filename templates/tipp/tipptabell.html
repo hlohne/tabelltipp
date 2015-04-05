@@ -10,16 +10,12 @@
             <table class="table table-striped">
               <thead>
                 <tr>
-<!--                  <th>#</th>
--->
                   <th>Lag</th>
                 </tr>
               </thead>
               <tbody id="sortable">
               {% for l in lag %}
                 <tr id='{{ l.id }}'>
-<!--                  <td>{{ forloop.counter }}</td>
--->
                   <td>{{ l.navn }}</td>
                 </tr>
               {% endfor %}

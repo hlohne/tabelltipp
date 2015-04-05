@@ -5,11 +5,8 @@ from django.http import HttpResponse
 from tipp.models import Lag, Liga, Tabell, Tabelltipp, TippetPlassering, PoengRegel
 from tipp.forms import OpprettLiga
 import simplejson as json
-#import json
-
 from django.contrib.auth.models import User
-
-# Create your views here.
+from django.template.defaultfilters import slugify
 
 
 def index(request):
@@ -31,11 +28,12 @@ def tabell(request, tabell_slug):
     context_dict = {'tabell': tabell}
     return render(request, 'tipp/tabell.html', context_dict)
 
-
+@login_required
 def ligaer(request):
     liga_list = Liga.objects.filter(public=True)
     for l in liga_list:
         l.antall = User.objects.filter(tabelltipp__liga=l).count()
+
     context_dict = {'ligaer': liga_list}
 
     return render(request, 'tipp/ligaer.html', context_dict)
@@ -71,15 +69,18 @@ def liga(request, liganavn_slug):
 def opprett_liga(request):
     if request.method == "POST":
         form = OpprettLiga(request.POST)
-        print(form)
-        print(form.is_valid())
         if form.is_valid():
-            try:
-                ligaobject=form.save(commit=True)
-                return blimediliga(request, ligaobject.slug)
-
-            except:
+            slug = slugify(request.POST['navn'])
+            print(slug)
+            if Liga.objects.filter(slug=slug) or slug == '':
                 pass
+            else:
+                try:
+                    ligaobject = form.save(commit=True)
+                    return blimediliga(request, ligaobject.slug)
+
+                except:
+                    pass
     else:
         form = OpprettLiga()
 
@@ -114,7 +115,8 @@ def blimediligaform(request):
             tipp.tabelltipp = tabelltipp
             tipp.tippet_plassering = tippetplassering+1
             tipp.save()
-    return ligaer(request)
+    messages.add_message(request, messages.INFO, "admin")
+    return
 
 
 @login_required
@@ -127,13 +129,11 @@ def se_tipp(request, liga_slug, user_slug):
         return redirect('liga',ligaen.slug)
     tabelltipp = Tabelltipp.objects.filter(user__username=user_slug, liga__slug=liga_slug).first()
     plassertlag=TippetPlassering.objects.filter(tabelltipp=tabelltipp).all()
-    return render(request, 'tipp/se_tipp.html', {'tabelltipp': tabelltipp, 'plassertlag': plassertlag})
+    return render(request, 'tipp/se_tipp.html', {'tabelltipp': tabelltipp, 'plassertlag': plassertlag, 'bruker': brukeren, 'liga': ligaen})
 
-def test(request):
-    return render(request, 'tipp/test.html', {})
 
 @login_required
-def testmetode(request):
+def regnpoeng(request):
     lagid = request.GET["lagid"]
     tabelltippid = request.GET["tabelltippid"]
 
@@ -142,11 +142,8 @@ def testmetode(request):
     plassitabell = [l.id for l in lagitabell].index(lag.id)+1
     poeng = lag.poeng
     tabelltipp = Tabelltipp.objects.get(id=tabelltippid)
-    print(tabelltipp)
     tipp = TippetPlassering.objects.get(tabelltipp=tabelltipp, lag=lag)
-    print(tipp)
     minuspoeng = tipp.getpoengfortipp()
-    print(minuspoeng)
 
-    results = {"plass": str(plassitabell), "poeng": str(poeng), "minuspoeng": str(minuspoeng)}
+    results = {"lag": str(lag.navn), "plass": str(plassitabell), "poeng": str(poeng), "minuspoeng": str(minuspoeng)}
     return HttpResponse(json.dumps(results))

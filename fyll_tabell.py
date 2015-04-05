@@ -4,7 +4,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tabelltipp.settings')
 import django
 django.setup()
 
-from tipp.models import Lag, Tabell
+from tipp.models import Lag, Tabell, PoengRegel
 
 
 def populate():
@@ -52,6 +52,24 @@ def legg_til_lag(navnet, ligaen, antallpoeng=0, kamperspilt=0):
     l.kamper_spilt=kamperspilt
     l.save()
     return l
+
+def legg_inn_poengregler():
+  x = PoengRegel()
+  x.navn = "Summert poengdifferanse"
+  x.kortnavn = "poeng"
+  x.save()
+  x = PoengRegel()
+  x.navn = "Summert plasseringsdifferanse"
+  x.kortnavn = "plassering"
+  x.save()
+  x = PoengRegel()
+  x.navn = "Summert kvadratisk poengdifferanse"
+  x.kortnavn = "poengkvadrat"
+  x.save()
+  x = PoengRegel()
+  x.navn = "Summert kvadratisk plasseringsdifferanse"
+  x.kortnavn = "plasseringkvadrat"
+  x.save()
 
 # Start execution here!
 if __name__ == '__main__':

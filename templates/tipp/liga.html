@@ -32,9 +32,15 @@
 <p><a class="btn btn-md btn-success btn-block" href="{% url 'blimediliga' liga.slug %}" role="button">Bli med</a></p>
 {% endif %}
 {% for message in  messages %}
+{% if message.message == "admin" %}
+<script>
+ $("#freeow").freeow("Velkommen!", "Du er nå med i ligaen {{ liga.navn }}!", { classes: ["smokey", "notice"]});
+</script>
+{% else %}
 <div class="alert alert-warning" role="alert">
   <strong>NB!</strong> Bli med i ligaen for å se tabelltippet til {{ message }}.
 </div>
+{% endif %}
 {% endfor %}
 <div>
     <p class="text-muted"> I denne ligaen tippes det om {{ liga.tabell }}, og {{liga.poengregel|lower }} blir brukt som poengregel.</p>

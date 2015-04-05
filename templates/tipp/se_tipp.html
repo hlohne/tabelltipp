@@ -5,7 +5,7 @@
 {% block title %}Tippet tabell{% endblock %}
 
 {% block body_block %}
-<h2 class="sub-header">Tippet tabell</h2>
+<h2 class="sub-header">Tippet tabell av {{ bruker }} i {{ liga.navn }}.</h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
@@ -24,4 +24,8 @@
               </tbody>
             </table>
           </div>
+<div>
+    <p class="text-muted">{{liga.poengregel }} blir brukt som poengregel.</p>
+</div>
+
 {% endblock %}

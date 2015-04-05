@@ -28,10 +28,12 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"> 
+  <link rel="stylesheet" href="{% static "js/Freeow/style/freeow/freeow.css" %}"> 
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
   <script src="{% static "js/jquery.ui.touch-punch.min.js" %}"></script>
   <script src="{% static "js/tipp-jquery.js" %}"></script>
+  <script src="{% static "js/Freeow/jquery.freeow.min.js" %}"></script>
 
   <style>
   #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
@@ -50,7 +52,7 @@
             <li role="presentation" class="{% navactive request 'index' %}">
             <a href="{% url 'index' %}">Hjem</a></li>
             <li role="presentation" class="drowdown {% if tabell %}active{% endif %}">
-            <a href="/tipp/tabell/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Tabell <span class="caret"></span></a>
+            <a href="/tipp/tabell/" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Tabeller <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               {% gettabeller 0 %}
             </ul>
@@ -73,6 +75,7 @@
       
       <div class="row marketing">
         <div class="col-lg-6"> 
+        <div id="freeow" class="freeow freeow-bottom-right"></div>
           {% block body_block %}{% endblock %}
         </div>
       </div>

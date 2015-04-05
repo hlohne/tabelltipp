@@ -69,25 +69,16 @@ class Tabelltipp(models.Model):
 
     def getpoeng(self):
         poengid = self.liga.poengregel.kortnavn
-        if "plassering" in poengid:
-            poengvektor = []
-            for plass,lag in enumerate(self.plassertlag.all()):
-                tippetplass = TippetPlassering.objects.get(lag=lag, tabelltipp=self).tippet_plassering
-                poengvektor.append(abs(plass+1-tippetplass))
+        poengvektor = [tipp.getpoengfortipp() for tipp in TippetPlassering.objects.filter(tabelltipp=self)]
 
-            if "kvadrat" in poengid:
-                poengvektor = [poeng**2 for poeng in poengvektor]
-            self.poeng = 1000-sum(poengvektor)/2
-            self.save()
+        if "kvadrat" in poengid:
+            poengvektor = [poeng**2 for poeng in poengvektor]
+            self.poeng = 1000-sum(poengvektor)
 
-        elif "poeng" in poengid:
-            tabelloversikt = self.plassertlag.all()
-            poengvektor = [abs(lag.poeng-tabelloversikt[TippetPlassering.objects.get(lag=lag, tabelltipp=self).tippet_plassering-1].poeng) for lag in tabelloversikt]
+        else:
+            self.poeng = 100-sum(poengvektor)
 
-            if "kvadrat" in poengid:
-                poengvektor = [poeng**2 for poeng in poengvektor]
-            self.poeng = 1000-sum(poengvektor)/2
-            self.save()
+        self.save()
 
     class Meta:
         ordering = ["-poeng"]
@@ -97,6 +88,18 @@ class TippetPlassering(models.Model):
     lag = models.ForeignKey(Lag, null=True)
     tabelltipp = models.ForeignKey(Tabelltipp, null=True)
     tippet_plassering = models.IntegerField()
+
+    def getpoengfortipp(self):
+        poengid = self.tabelltipp.liga.poengregel.kortnavn
+        lagitabell = Lag.objects.filter(tabell=self.lag.tabell)
+        if "plassering" in poengid:
+            plassitabell = [l.id for l in lagitabell].index(self.lag.id)+1
+            return abs(plassitabell-int(self.tippet_plassering))
+
+        elif "poeng" in poengid:
+            return abs(self.lag.poeng-lagitabell[int(self.tippet_plassering)-1].poeng)
+
+
 
     class Meta:
         ordering = ["tippet_plassering"]

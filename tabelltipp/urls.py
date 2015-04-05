@@ -1,7 +1,5 @@
 from django.conf.urls import patterns, include, url
-from django.shortcuts import redirect
 from django.contrib import admin
-from django.contrib import messages
 from registration.backends.simple.views import RegistrationView
 from registration.forms import RegistrationFormUniqueEmail
 
@@ -10,6 +8,7 @@ class MyRegistrationView(RegistrationView):
 
     def get_success_url(self, request, user):
         return '/'
+
 
 urlpatterns = patterns('',
     # Examples:

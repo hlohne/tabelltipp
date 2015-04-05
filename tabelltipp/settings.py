@@ -28,11 +28,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 SECRET_KEY = '(ke0j1tk-m&ia1ozga-5y2(=9_2y=rh5e14s+k7s=npihl%v48'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-TEMPLATE_DEBUG = False
+TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['henning.pythonanywhere.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition

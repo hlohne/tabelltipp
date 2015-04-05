@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.http import HttpResponse
 from tipp.models import Lag, Liga, Tabell, Tabelltipp, TippetPlassering, PoengRegel
 from tipp.forms import OpprettLiga
+import simplejson as json
+#import json
 
 from django.contrib.auth.models import User
 
@@ -128,3 +131,22 @@ def se_tipp(request, liga_slug, user_slug):
 
 def test(request):
     return render(request, 'tipp/test.html', {})
+
+@login_required
+def testmetode(request):
+    lagid = request.GET["lagid"]
+    tabelltippid = request.GET["tabelltippid"]
+
+    lag = Lag.objects.get(id=lagid)
+    lagitabell = Lag.objects.filter(tabell=lag.tabell).all()
+    plassitabell = [l.id for l in lagitabell].index(lag.id)+1
+    poeng = lag.poeng
+    tabelltipp = Tabelltipp.objects.get(id=tabelltippid)
+    print(tabelltipp)
+    tipp = TippetPlassering.objects.get(tabelltipp=tabelltipp, lag=lag)
+    print(tipp)
+    minuspoeng = tipp.getpoengfortipp()
+    print(minuspoeng)
+
+    results = {"plass": str(plassitabell), "poeng": str(poeng), "minuspoeng": str(minuspoeng)}
+    return HttpResponse(json.dumps(results))

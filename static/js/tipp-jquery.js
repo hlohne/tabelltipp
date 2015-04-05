@@ -37,6 +37,20 @@ $(function() {
         $(this).removeClass('info');
       });
   });
+
+  jQuery(document).ready(function($) {
+    $(".table-row").click(function() {
+        var lagid = $(this).attr("data-lagid");
+        var tabelltippid = $(this).attr("data-tabelltippid");
+        $.get('/testmetode/', {lagid:lagid, tabelltippid: tabelltippid}, function(data) {
+            var svar = jQuery.parseJSON( data );
+            alert("Laget er på " + svar.plass + t" plass og har " + svar.poeng + " poeng. Dette gir " + svar.minuspoeng + " minuspoeng ");
+            });
+      });
+  });
+
+
+
   jQuery(document).ready(function($) {
     $(".tabell").hover(function() {
         $(this).addClass('info');

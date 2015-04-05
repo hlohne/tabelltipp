@@ -1,14 +1,2 @@
-{% extends 'base.html' %}
+{% load dajaxice_templatetags %}
 
-{% block title %}About{% endblock %}
-
-{% block body_block %}
-
-  <script type="text/javascript">
-    function my_js_callback(data){
-      alert(data.message);
-    }
-  </script>
-    <input type="button" onclick="Dajaxice.myapp.sayhello(my_js_callback);" value="test">
-
-{% endblock %}

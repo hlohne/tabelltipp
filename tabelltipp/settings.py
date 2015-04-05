@@ -32,6 +32,8 @@ DEBUG = False
 
 TEMPLATE_DEBUG = False
 
+ADMIN_ENABLED = False
+
 ALLOWED_HOSTS = ['tabelltipp.pythonanywhere.com']
 
 

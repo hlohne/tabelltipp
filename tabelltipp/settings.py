@@ -32,7 +32,7 @@ DEBUG = False
 
 TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = ['henning.pythonanywhere.com']
+ALLOWED_HOSTS = ['tabelltipp.pythonanywhere.com']
 
 
 # Application definition
@@ -103,3 +103,14 @@ ACCOUNT_ACTIVATION_DAYS = 7     # One-week activation window; you may, of course
 REGISTRATION_AUTO_LOGIN = True  # If True, the user will be automatically logged in.
 LOGIN_REDIRECT_URL = '/'  # The page you want users to arrive at after they successful log in
 LOGIN_URL = '/accounts/login/'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+
+EMAIL_HOST_USER = 'dinnyeepost@gmail.com'
+EMAIL_HOST_PASSWORD = 'banan001'
+
+DEFAULT_FROM_EMAIL = 'dinnyeepost@gmail.com'
+DEFAULT_TO_EMAIL = 'dinnyeepost@gmail.com'
+

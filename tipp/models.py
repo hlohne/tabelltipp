@@ -26,7 +26,11 @@ class Tabell(models.Model):
             try:
                 stats = f.split("Hjemmetabell")[1].split(lag.navn.split()[0])[1].split("</tr>")[0].replace('\t','').replace('<td>','').replace('</td>','').splitlines()[1:9]
                 lag.kamper_spilt = int(stats[0])
+                lag.seire = int(stats[1])
+                lag.uavgjort = int(stats[2])
+                lag.tap = int(stats[3])
                 lag.scoretemaal = int(stats[4])
+                lag.maal = stats[4] + ' - ' + stats[5]
                 lag.maalforskjell = int(stats[6])
                 lag.poeng = int(stats[7].split('>')[1])
                 lag.save()
@@ -43,8 +47,12 @@ class Lag(models.Model):
     navn = models.CharField(max_length=128, unique=True)
     poeng = models.IntegerField(default=0)
     kamper_spilt = models.IntegerField(default=0)
+    seire = models.IntegerField(default=0, null=True)
+    uavgjort = models.IntegerField(default=0, null=True)
+    tap = models.IntegerField(default=0, null=True)
     maalforskjell = models.IntegerField(default=0)
     scoretemaal = models.IntegerField(default=0)
+    maal = models.CharField(default='0 - 0', max_length=12, null=True)
     tabell = models.ForeignKey(Tabell)
     sorteringsnavn = models.CharField(max_length=128, null=True)
 

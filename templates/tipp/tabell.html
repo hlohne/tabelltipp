@@ -12,7 +12,8 @@
                 <tr class='success'>
                   <th>#</th>
                   <th>Lag</th>
-<!--                  <th>Kamper spilt</th> -->
+                  <th>S</th> 
+                  <th>Mål</th> 
                   <th>Poeng</th>
                 </tr>
               </thead>
@@ -21,7 +22,8 @@
                 <tr class="tabell">
                   <td>{{ forloop.counter }}</td>
                   <td>{{ l.navn }}</td>
-<!--                  <td>{{ l.kamper_spilt }}</td> -->
+                  <td>{{ l.kamper_spilt }}</td> 
+                  <td>{{ l.maal }}</td> 
                   <td>{{ l.poeng }}</td> 
                 </tr>
               {% endfor %}

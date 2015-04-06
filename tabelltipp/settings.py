@@ -106,10 +106,12 @@ REGISTRATION_AUTO_LOGIN = True  # If True, the user will be automatically logged
 LOGIN_REDIRECT_URL = '/'  # The page you want users to arrive at after they successful log in
 LOGIN_URL = '/accounts/login/'
 
-#EMAIL_USE_TLS = True
-#EMAIL_HOST = 'smtp.gmail.com'
-#EMAIL_PORT = 587
-#EMAIL_HOST_USER = 'lohne.henning@gmail.com'
-#EMAIL_HOST_PASSWORD = '****'
-#DEFAULT_FROM_EMAIL = 'lohne.henning@gmail.com'
-#DEFAULT_TO_EMAIL = 'lohne.henning@gmail.com'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'mail.broadpark.no'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'hennlohn'
+EMAIL_HOST_PASSWORD = 'KtYy3ZrM'
+DEFAULT_FROM_EMAIL = 'hennlohn@broadpark.no'
+DEFAULT_TO_EMAIL = 'lohne.henning@gmail.com'
+

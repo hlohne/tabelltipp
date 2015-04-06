@@ -7,6 +7,8 @@ from tipp.forms import OpprettLiga
 import simplejson as json
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+from django.conf import settings
+import os
 
 
 def index(request):
@@ -23,6 +25,7 @@ def index(request):
 
 def tabell(request, tabell_slug):
     tabell = Tabell.objects.get(slug=tabell_slug)
+    tabell.reloaddata()
     lag = Lag.objects.filter(tabell=tabell)
     tabell.lag = lag
     context_dict = {'tabell': tabell}
@@ -43,6 +46,7 @@ def liga(request, liganavn_slug):
     context_dict = {}
     try:
         liga = Liga.objects.get(slug=liganavn_slug)
+        liga.tabell.reloaddata()
         context_dict['liganavn'] = liga.navn
 
         tabelltipp = Tabelltipp.objects.filter(liga=liga)
@@ -71,7 +75,6 @@ def opprett_liga(request):
         form = OpprettLiga(request.POST)
         if form.is_valid():
             slug = slugify(request.POST['navn'])
-            print(slug)
             if Liga.objects.filter(slug=slug) or slug == '':
                 pass
             else:

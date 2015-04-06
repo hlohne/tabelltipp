@@ -24,11 +24,11 @@ class Tabell(models.Model):
 
         for lag in Lag.objects.filter(tabell=self):
             try:
-                stats=[line for line in f.split(lag.navn.split()[0])[1].split("</tr>")[0].replace('\t','').replace('<td>','').replace('</td>','').splitlines() if 'stat' not in line][1:]
+                stats = f.split("Hjemmetabell")[1].split(lag.navn.split()[0])[1].split("</tr>")[0].replace('\t','').replace('<td>','').replace('</td>','').splitlines()[1:9]
                 lag.kamper_spilt = int(stats[0])
-                lag.scoretemaal = int(stats[4].split('-')[0])
-                lag.maalforskjell = int(stats[5])
-                lag.poeng = int(stats[6])
+                lag.scoretemaal = int(stats[4])
+                lag.maalforskjell = int(stats[6])
+                lag.poeng = int(stats[7].split('>')[1])
                 lag.save()
             except:
                 error_occured = True

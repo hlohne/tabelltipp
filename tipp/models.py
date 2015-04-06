@@ -1,11 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
-
+from urllib.request import urlopen
 
 class Tabell(models.Model):
     navn = models.CharField(max_length=128, unique=True)
     slug = models.SlugField(unique=True)
+    url = models.URLField(null=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.navn)
@@ -13,6 +14,32 @@ class Tabell(models.Model):
 
     def __str__(self):
         return self.navn
+
+    def reloaddata(self):
+        error_occured = False
+        try:
+            f = urlopen(self.url).read().decode()
+        except:
+            return False
+
+        print("Oppdaterer %s"%self.navn)
+        for lag in Lag.objects.filter(tabell=self):
+            try:
+                print(lag.navn)
+                stats=[line for line in f.split(lag.navn.split()[0])[1].split("</tr>")[0].replace('\t','').replace('<td>','').replace('</td>','').splitlines() if 'stat' not in line][1:]
+                lag.kamper_spilt = int(stats[0])
+                lag.scoretemaal = int(stats[4].split('-')[0])
+                lag.maalforskjell = int(stats[5])
+                lag.poeng = int(stats[6])
+                lag.save()
+                print("Oppdaterte %s"%lag.navn)
+            except:
+                error_occured = True
+
+        if error_occured:
+            return False
+        else:
+            return True
 
 
 class Lag(models.Model):

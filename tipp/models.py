@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from urllib.request import urlopen
+from datetime import datetime
+from pytz import timezone
+
 
 class Tabell(models.Model):
     navn = models.CharField(max_length=128, unique=True)
@@ -17,7 +20,9 @@ class Tabell(models.Model):
 
     def reloaddata(self):
         error_occured = False
+        timeinorge = datetime.now(timezone("Europe/Oslo")).hour
         try:
+            assert(13 <= timeinorge < 22)
             f = urlopen(self.url).read().decode()
         except:
             return False
@@ -129,8 +134,6 @@ class TippetPlassering(models.Model):
 
         elif "poeng" in poengid:
             return abs(self.lag.poeng-lagitabell[int(self.tippet_plassering)-1].poeng)
-
-
 
     class Meta:
         ordering = ["tippet_plassering"]

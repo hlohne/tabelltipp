@@ -22,17 +22,14 @@ class Tabell(models.Model):
         except:
             return False
 
-        print("Oppdaterer %s"%self.navn)
         for lag in Lag.objects.filter(tabell=self):
             try:
-                print(lag.navn)
                 stats=[line for line in f.split(lag.navn.split()[0])[1].split("</tr>")[0].replace('\t','').replace('<td>','').replace('</td>','').splitlines() if 'stat' not in line][1:]
                 lag.kamper_spilt = int(stats[0])
                 lag.scoretemaal = int(stats[4].split('-')[0])
                 lag.maalforskjell = int(stats[5])
                 lag.poeng = int(stats[6])
                 lag.save()
-                print("Oppdaterte %s"%lag.navn)
             except:
                 error_occured = True
 

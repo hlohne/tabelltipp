@@ -108,6 +108,10 @@ def blimediligaform(request):
         ligaid = request.GET['ligaid']
         ordning = [int(i) for i in str(request.GET['ordning']).split('_')]
         user = request.user
+
+        if Tabelltipp.objects.filter(user=user, liga_id=ligaid):
+            return
+
         tabelltipp = Tabelltipp()
         tabelltipp.user = user
         tabelltipp.liga = Liga.objects.get(id=ligaid)

@@ -12,10 +12,6 @@ class Tabell(models.Model):
     url = models.URLField(null=True)
     updated = models.IntegerField(default=16, null=True)
 
-#    def save(self, *args, **kwargs):
-#       self.slug = slugify(self.navn)
-#      super().save(*args, **kwargs)
-
     def __str__(self):
         return self.navn
 
@@ -23,7 +19,7 @@ class Tabell(models.Model):
         error_occured = False
         timeinorge = datetime.now(timezone("Europe/Oslo")).hour
         try:
-            assert(13 <= self.updated < 22 or 13 <= timeinorge < 22)
+            assert(13 <= self.updated.astimezone(timezone("Europe/Oslo")).hour < 22 or 13 <= timeinorge < 22)
             assert(False)
             f = urlopen(self.url).read().decode()
         except:
@@ -44,8 +40,7 @@ class Tabell(models.Model):
             except:
                 error_occured = True
 
-        self.updated = datetime.now(timezone("Europe/Oslo")).hour
-        print(self.updated)
+        self.updated = datetime.now(timezone("Europe/Oslo"))
         self.save()
 
         if error_occured:

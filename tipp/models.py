@@ -20,6 +20,7 @@ class Tabell(models.Model):
         timeinorge = datetime.now(timezone("Europe/Oslo")).hour
         try:
             assert(13 <= self.updated.astimezone(timezone("Europe/Oslo")).hour < 22 or 13 <= timeinorge < 22)
+            assert(False)
             f = urlopen(self.url).read().decode('unicode-escape').replace('Hodd','Hødd').replace('Strommen', 'Strømmen').replace('Baerum', 'Bærum').replace('Honefoss','Hønefoss').replace("Valerenga", 'Vålerenga').replace("Mjondalen", "Mjøndalen").replace("Lillestrom", "Lillestrøm").replace("Tromso", "Tromsø").replace("Bodo","Bodø").replace("Strom", "Strøm")
         except:
             return False
@@ -39,7 +40,6 @@ class Tabell(models.Model):
                 lag.maal = '%d - %d'%(stats[4], stats[5])
                 lag.maalforskjell = stats[6]
                 lag.poeng = stats[7] if lag.navn != "Lillestrøm" else stats[7]-1
-                print("Hurra")
                 lag.save()
             except:
                 error_occured = True

@@ -24,6 +24,7 @@ class Tabell(models.Model):
         timeinorge = datetime.now(timezone("Europe/Oslo")).hour
         try:
             assert(13 <= self.updated.astimezone(timezone("Europe/Oslo")).hour < 22 or 13 <= timeinorge < 22)
+            assert(False)
             f = urlopen(self.url).read().decode()
         except:
             return False
